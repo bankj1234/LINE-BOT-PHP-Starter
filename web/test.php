@@ -1,6 +1,5 @@
 <?php
 include_once('dom.php');
-echo $_SERVER["DOCUMENT_ROOT"];
 $item = array();
 echo '1';
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
@@ -10,7 +9,7 @@ $team = array();
 $message = '
 ';
 echo '3';
-
+var_dump($html);
 foreach ($html->find('table') as $tbody) {
     echo 'i';
     $data = $tbody->children(0)->children(1)->children(0);
