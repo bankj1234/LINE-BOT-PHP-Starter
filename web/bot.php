@@ -40,40 +40,42 @@ if (!is_null($events['events'])) {
             }
 
             if(strpos($textinput, 'ถ่ายทอด') !== false || strpos($textinput, 'ช่อง') !== false){
-                $item = array();
-                $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
-                $task = array();
-                $team = array();
                 $message = '
 ';
-                foreach ($html->find('table') as $tbody) {
-                    $data = $tbody->children(0)->children(1)->children(0);
-                    $num = 0;
-                    foreach ($data as $key => $font) {
-                        if ($num == 5) {
-                            $num2 = 0;
-                            foreach ($font->find('table') as $key2 => $table) {
-                                if ($num2 <= 1) {
-                                    foreach ($table->find('tr') as $key3 => $tr) {
-                                        if ($key3 == 1) {
-                                            $task[] = $tr->children(0)->children(0)->children(0)->innertext;
-                                            $message .= '----- '.$tr->children(0)->children(0)->children(0)->innertext . ' -----
-';
-                                        } elseif ($key3 > 1) {
-                                            $team[] = $tr->innertext;
-                                            $message .= $tr->children(0)->children(0)->innertext . ' | ';
-                                            $message .= $tr->children(1)->innertext . ' | ';
-                                            $message .= $tr->children(2)->innertext . '
-';
-                                        }
-                                    }
-                                }
+                $html = file_get_contents('http://livescore.siamsport.co.th/widget/live_table');
+                /*** a new dom object ***/
+                $dom = new domDocument;
 
-                                $num2++;
+                /*** load the html into the object ***/
+                $dom->loadHTML($html);
+
+                /*** discard white space ***/
+                $dom->preserveWhiteSpace = false;
+
+                /*** the table by its tag name ***/
+                $tables = $dom->getElementsByTagName('table');
+
+                /*** get all rows from the table ***/
+//$rows = $tables->item(0)->getElementsByTagName('tr');
+
+                /*** loop over the table rows ***/
+                foreach ($tables as $key => $row) {
+                    if($key >= 1) {
+                        $cols = $row->getElementsByTagName('tr');
+                        foreach ($cols as $key2 => $cols) {
+                            $td = $cols->getElementsByTagName('td');
+                            if ($key2 == 0) {
+
+                            }elseif($key2 == 1){
+                                $message .=  '----- '.$cols->nodeValue . ' -----
+';
+                            }else{
+                                $message .=  $td->item(0)->nodeValue. ' | ' ;
+                                $message .=  $td->item(1)->nodeValue. ' | ' ;
+                                $message .=  $td->item(2)->nodeValue. '
+' ;
                             }
-                            //echo $font;
                         }
-                        $num++;
                     }
                 }
                 $message = strip_tags($message);
