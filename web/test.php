@@ -10,7 +10,7 @@ $team = array();
 $message = '
 ';
 echo '3';
-exit;
+
 foreach ($html->find('table') as $tbody) {
     $data = $tbody->children(0)->children(1)->children(0);
     $num = 0;
@@ -41,6 +41,7 @@ foreach ($html->find('table') as $tbody) {
         $num++;
     }
 }
+echo '4';
 $message = strip_tags($message);
 $text = $message;
 $case = 1;
