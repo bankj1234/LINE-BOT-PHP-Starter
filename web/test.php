@@ -1,6 +1,6 @@
 <?php
 include_once('/dom.php');
-
+echo $_SERVER["DOCUMENT_ROOT"];
 $item = array();
 echo '1';
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
