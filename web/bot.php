@@ -100,63 +100,11 @@ if (!is_null($events['events'])) {
                 $case = 1;
             }
 
-
             if (strpos($textinput, 'คะแนน') !== false) {
-
-                $item = array();
-                $html = file_get_html('http://livescore.siamsport.co.th/widget/standing/1204');
-                $numtable = 0;
-                $numtr = 0;
-                $numtd = 0;
-                $rank = array();
-                $team = array();
-                $mach = array();
-                $score = array();
-                foreach($html->find('table tbody') as $tbody) {
-                    if($numtable >= 1){
-                        foreach($tbody->find('tr') as $tr) {
-                            if($numtr >= 2){
-                                $numtd = 0;
-                                foreach($tr->find('td div') as $td) {
-                                    if($numtd == 0){
-                                        $rank[] = $td->innertext;
-                                    }
-                                    if($numtd == 1){
-                                        $team[] = $td->children(0)->innertext;
-                                    }
-                                    if($numtd == 2){
-                                        $mach[] = $td->innertext;
-                                    }
-                                    if($numtd == 18){
-                                        $score[] = $td->children(0)->innertext;
-                                    }
-
-                                    $numtd++;
-
-
-                                }
-                            }
-                            $numtr++;
-
-                        }
-                    }else{
-                        $date = $tbody->children(0)->children(1)->children(0)->children(0)->children(0)->innertext;
-                    }
-                    $numtable++;
-                }
-                $message = $date.'
-';
-                $message .= '    อันดับ | แข่ง | แต้ม | ทีม';
-                foreach ($rank as $key => $val){
-                    $message .= '
-    '.$rank[$key].' | ';
-                    $message .= $mach[$key].' | ';
-                    $message .= $score[$key].' | ';
-                    $message .= $team[$key];
-                }
-                $text = $message;
+                $text = 'ดูเอาเอง -> http://livescore.siamsport.co.th/widget/standing/1204';
                 $case = 1;
             }
+
             if (strpos($textinput, 'สาว') !== false) {
                 $rand = rand(1, 29);
                 switch ($rand) {
