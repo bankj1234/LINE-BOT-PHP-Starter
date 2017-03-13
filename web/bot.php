@@ -20,17 +20,34 @@ if (!is_null($events['events'])) {
             // Build message to reply back
 
             if(strpos($textinput, 'แข่ง') !== false || strpos($textinput, 'เตะ') !== false || strpos($textinput, 'ผล') !== false || strpos($textinput, 'บอล') !== false){
-                $item = array();
-                $html = file_get_html('http://livescore.siamsport.co.th/widget/fixtures_results/1204/1');
-                $task = array();
-                $team = array();
                 $message = '
 ';
-                foreach ($html->find('div.scoreBox') as $scoreBox) {
-                    $message .= '----- ' . $scoreBox->children(0)->innertext . ' -----
+                $html = file_get_contents('http://livescore.siamsport.co.th/widget/fixtures_results/1204/1');
+                /*** a new dom object ***/
+                $dom = new domDocument;
+
+                /*** load the html into the object ***/
+                $dom->loadHTML($html);
+
+                /*** discard white space ***/
+                $dom->preserveWhiteSpace = false;
+
+                /*** the table by its tag name ***/
+
+                $tables=getElementsByClass($dom, 'div', 'scoreBox');
+
+
+                /*** get all rows from the table ***/
+//$rows = $tables->item(0)->getElementsByTagName('tr');
+
+                /*** loop over the table rows ***/
+                foreach ($tables as $key => $row) {
+
+                    $div = $row->getElementsByTagName('div');
+                    $message .= '----- ' . $div->item(0)->nodeValue . ' -----
 ';
-                    foreach ($scoreBox->find('tr') as $data) {
-                        $message .=  $data . '
+                    foreach ($row->getElementsByTagName('tr') as $data) {
+                        $message .= $data->nodeValue.'
 ';
                     }
                 }
@@ -733,4 +750,18 @@ if (!is_null($events['events'])) {
         }
     }
 }
+function getElementsByClass(&$parentNode, $tagName, $className) {
+    $nodes=array();
+
+    $childNodeList = $parentNode->getElementsByTagName($tagName);
+    for ($i = 0; $i < $childNodeList->length; $i++) {
+        $temp = $childNodeList->item($i);
+        if (stripos($temp->getAttribute('class'), $className) !== false) {
+            $nodes[]=$temp;
+        }
+    }
+
+    return $nodes;
+}
+
 echo "OK";
