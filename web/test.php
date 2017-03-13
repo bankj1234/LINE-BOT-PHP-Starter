@@ -1,5 +1,10 @@
 <?php
 include_once('./web/dom.php');
+
+
+echo '1';
+exit;
+
 $item = array();
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
 $task = array();
