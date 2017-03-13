@@ -12,6 +12,7 @@ $message = '
 echo '3';
 
 foreach ($html->find('table') as $tbody) {
+    echo 'i';
     $data = $tbody->children(0)->children(1)->children(0);
     $num = 0;
     foreach ($data as $key => $font) {
