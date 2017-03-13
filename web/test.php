@@ -1,8 +1,8 @@
 <?php
-include_once('./web/dom.php');
+include_once('/dom.php');
 
 $item = array();
-phpinfo();
+echo '1';
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
 echo '2';
 $task = array();
