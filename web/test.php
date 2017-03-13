@@ -2,7 +2,7 @@
 include_once('./web/dom.php');
 
 $item = array();
-echo '1';
+phpinfo();
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
 echo '2';
 $task = array();
