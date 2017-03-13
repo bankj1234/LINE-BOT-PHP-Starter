@@ -3,7 +3,7 @@ include_once('./web/dom.php');
 
 echo get_include_path('./web/dom.php');
 echo ini_get('include_path');
-exit;
+
 
 $item = array();
 $html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
@@ -11,6 +11,8 @@ $task = array();
 $team = array();
 $message = '
 ';
+echo '156';
+exit;
 foreach ($html->find('table') as $tbody) {
     $data = $tbody->children(0)->children(1)->children(0);
     $num = 0;
