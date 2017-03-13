@@ -1,50 +1,29 @@
 <?php
-include_once('dom.php');
-$item = array();
-echo '1';
-$html = file_get_html('http://livescore.siamsport.co.th/widget/live_table');
-echo '2';
-$task = array();
-$team = array();
-$message = '
-';
-echo '3';
-var_dump($html);
-foreach ($html->find('table') as $tbody) {
-    echo 'i';
-    $data = $tbody->children(0)->children(1)->children(0);
-    $num = 0;
-    foreach ($data as $key => $font) {
-        if ($num == 5) {
-            $num2 = 0;
-            foreach ($font->find('table') as $key2 => $table) {
-                if ($num2 <= 1) {
-                    foreach ($table->find('tr') as $key3 => $tr) {
-                        if ($key3 == 1) {
-                            $task[] = $tr->children(0)->children(0)->children(0)->innertext;
-                            $message .= '----- '.$tr->children(0)->children(0)->children(0)->innertext . ' -----
-';
-                        } elseif ($key3 > 1) {
-                            $team[] = $tr->innertext;
-                            $message .= $tr->children(0)->children(0)->innertext . ' | ';
-                            $message .= $tr->children(1)->innertext . ' | ';
-                            $message .= $tr->children(2)->innertext . '
-';
-                        }
-                    }
-                }
+$html = file_get_contents('http://livescore.siamsport.co.th/widget/live_table');
+/*** a new dom object ***/
+$dom = new domDocument;
 
-                $num2++;
-            }
-            //echo $font;
-        }
-        $num++;
-    }
+/*** load the html into the object ***/
+$dom->loadHTML($html);
+
+/*** discard white space ***/
+$dom->preserveWhiteSpace = false;
+
+/*** the table by its tag name ***/
+$tables = $dom->getElementsByTagName('table');
+
+/*** get all rows from the table ***/
+$rows = $tables->item(0)->getElementsByTagName('tr');
+
+/*** loop over the table rows ***/
+foreach ($rows as $row) {
+    /*** get each column by tag name ***/
+    $cols = $row->getElementsByTagName('td');
+
+    /*** echo the values ***/
+    echo 'Designation: '.$cols->item(0)->nodeValue.'<br />';
+    echo 'Manager: '.$cols->item(1)->nodeValue.'<br />';
+    echo 'Team: '.$cols->item(2)->nodeValue;
+    echo '<hr />';
 }
-echo '4';
-$message = strip_tags($message);
-$text = $message;
-$case = 1;
-
-echo $text;
 ?>
