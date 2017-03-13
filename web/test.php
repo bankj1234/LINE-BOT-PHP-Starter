@@ -1,5 +1,5 @@
 <?php
-include_once('/dom.php');
+include_once('dom.php');
 echo $_SERVER["DOCUMENT_ROOT"];
 $item = array();
 echo '1';
