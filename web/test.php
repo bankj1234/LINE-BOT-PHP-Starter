@@ -1,8 +1,8 @@
 <?php
 include_once('./web/dom.php');
 
-
-echo '1';
+echo get_include_path('./web/dom.php');
+echo ini_get('include_path');
 exit;
 
 $item = array();
