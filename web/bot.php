@@ -22,14 +22,24 @@ include_once('dom.php');
                 $replyToken = $event['replyToken'];
                 $case = 0;
                 // Build message to reply back
-                if(strpos($textinput, 'เปิดการทำงาน') !== false){
+                if (strpos($textinput, 'บอ ท') !== false ||strpos($textinput, 'บ อท') !== false || strpos($textinput, 'บ อ ท') !== false || strpos($textinput, 'บอท') !== false || strpos($textinput, 'bot') !== false) {
                     $myfile = fopen("data.txt", "w") or die("Unable to open file!");
                     $txt = "1";
                     fwrite($myfile, $txt);
                     fclose($myfile);
-                    $text = 'Hello';
                     $case = 1;
+                    $rand = rand(0, 2);
+                    $case = 1;
+                    if($rand == 1){
+                        $text = 'เสือกไรกู';
+                    }elseif($rand == 2){
+                        $text = 'บอทฆวยไร';
+                    }else{
+                        $text = 'เรียกหาพ่องมึงเหรอ';
+                    }
+
                 }
+
                 if(strpos($textinput, 'ไปไกลๆตีน') !== false){
                     $myfile = fopen("data.txt", "w") or die("Unable to open file!");
                     $txt = "2";
@@ -283,18 +293,6 @@ include_once('dom.php');
                         }elseif($rand == 3){
                             $text = 'โทรมาสัด 0628295441';
                         }
-                    }
-
-                    if (strpos($textinput, 'บอ ท') !== false ||strpos($textinput, 'บ อท') !== false || strpos($textinput, 'บ อ ท') !== false || strpos($textinput, 'บอท') !== false || strpos($textinput, 'bot') !== false) {
-                        $case = 1;
-                        $rand = rand(0, 1);
-                        $case = 1;
-                        if($rand == 1){
-                            $text = 'เสือกไรกู';
-                        }else{
-                            $text = 'บอทฆวยไร';
-                        }
-
                     }
 
                     if (strpos($textinput, 'ป้อม') !== false || strpos($textinput, 'เตี') !== false) {
@@ -661,11 +659,11 @@ include_once('dom.php');
                                 [
                                     'type' => 'message',
                                     'label' => 'ซื้อ',
-                                    'text' => 'ติดต่อคุณโทนเลย'
+                                    'text' => 'โทนๆ มีคนสนใจ'
                                 ], [
                                     'type' => 'message',
                                     'label' => 'ไม่ซื้อ',
-                                    'text' => 'ไปไกลๆตีนเลยสัด เสียเวลาชิบหาย'
+                                    'text' => 'เสียเวลาชิบหาย ถามหาพ่อมึงเหรอ'
                                 ]
                             ]
                         ]
