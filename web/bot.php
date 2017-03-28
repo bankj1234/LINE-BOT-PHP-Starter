@@ -1,11 +1,26 @@
 <?php
-$access_token = 'S7u+m3LPEnv5g88DA1U/cgwTzJjBmVARDOKuCMsoBgIpi9kiltPJhQS3wi1x98au1DZpgwrYzYbtzKD0ze1C9LETZaGU7Jp2RD8vHsGOgDl3lwaTQcmBXs31PFffCp/Bl2UszxyvwRRaWvSlEQ/HOAdB04t89/1O/w1cDnyilFU=';
+
+class MyDB extends SQLite3
+{
+    function __construct()
+    {
+        $this->open('database.db');
+    }
+}
+
+$db = new MyDB();
+if (!$db) {
+    echo $db->lastErrorMsg();
+} else {
+
+
+    $access_token = 'S7u+m3LPEnv5g88DA1U/cgwTzJjBmVARDOKuCMsoBgIpi9kiltPJhQS3wi1x98au1DZpgwrYzYbtzKD0ze1C9LETZaGU7Jp2RD8vHsGOgDl3lwaTQcmBXs31PFffCp/Bl2UszxyvwRRaWvSlEQ/HOAdB04t89/1O/w1cDnyilFU=';
 
 // Get POST body content
-$content = file_get_contents('php://input');
+    $content = file_get_contents('php://input');
 // Parse JSON
-$events = json_decode($content, true);
-include_once('dom.php');
+    $events = json_decode($content, true);
+    include_once('dom.php');
 // Validate parsed JSON data
 
 //$myfile = fopen("data.txt", "r") or die("Unable to open file!");
@@ -22,7 +37,7 @@ include_once('dom.php');
                 $replyToken = $event['replyToken'];
                 $case = 0;
                 // Build message to reply back
-                if (strpos($textinput, 'บอ ท') !== false ||strpos($textinput, 'บ อท') !== false || strpos($textinput, 'บ อ ท') !== false || strpos($textinput, 'บอท') !== false || strpos($textinput, 'bot') !== false) {
+                if (strpos($textinput, 'บอ ท') !== false || strpos($textinput, 'บ อท') !== false || strpos($textinput, 'บ อ ท') !== false || strpos($textinput, 'บอท') !== false || strpos($textinput, 'bot') !== false) {
                     $myfile = fopen("data.txt", "w") or die("Unable to open file!");
                     $txt = "1";
                     fwrite($myfile, $txt);
@@ -30,17 +45,17 @@ include_once('dom.php');
                     $case = 1;
                     $rand = rand(0, 2);
                     $case = 1;
-                    if($rand == 1){
+                    if ($rand == 1) {
                         $text = 'เสือกไรกู';
-                    }elseif($rand == 2){
+                    } elseif ($rand == 2) {
                         $text = 'บอทฆวยไร';
-                    }else{
+                    } else {
                         $text = 'เรียกหาพ่องมึงเหรอ';
                     }
 
                 }
 
-                if(strpos($textinput, 'ไปไกลๆตีน') !== false){
+                if (strpos($textinput, 'ไปไกลๆตีน') !== false) {
                     $myfile = fopen("data.txt", "w") or die("Unable to open file!");
                     $txt = "2";
                     fwrite($myfile, $txt);
@@ -50,9 +65,9 @@ include_once('dom.php');
                 }
 
                 $myfile = fopen("data.txt", "r") or die("Unable to open file!");
-                $data = fread($myfile,filesize("data.txt"));
-                if($data == "1"){
-                    if(strpos($textinput, 'แข่ง') !== false || strpos($textinput, 'เตะ') !== false || strpos($textinput, 'ผล') !== false || strpos($textinput, 'บอล') !== false){
+                $data = fread($myfile, filesize("data.txt"));
+                if ($data == "1") {
+                    if (strpos($textinput, 'แข่ง') !== false || strpos($textinput, 'เตะ') !== false || strpos($textinput, 'ผล') !== false || strpos($textinput, 'บอล') !== false) {
                         $message = '
 ';
                         $html = file_get_contents('http://livescore.siamsport.co.th/widget/fixtures_results/1204/1');
@@ -67,7 +82,7 @@ include_once('dom.php');
 
                         /*** the table by its tag name ***/
 
-                        $tables=getElementsByClass($dom, 'div', 'scoreBox');
+                        $tables = getElementsByClass($dom, 'div', 'scoreBox');
 
 
                         /*** get all rows from the table ***/
@@ -80,7 +95,7 @@ include_once('dom.php');
                             $message .= '----- ' . $div->item(0)->nodeValue . ' -----
 ';
                             foreach ($row->getElementsByTagName('tr') as $data) {
-                                $message .= $data->nodeValue.'
+                                $message .= $data->nodeValue . '
 ';
                             }
                         }
@@ -89,7 +104,7 @@ include_once('dom.php');
                         $case = 1;
                     }
 
-                    if(strpos($textinput, 'ถ่ายทอด') !== false || strpos($textinput, 'ช่อง') !== false){
+                    if (strpos($textinput, 'ถ่ายทอด') !== false || strpos($textinput, 'ช่อง') !== false) {
                         $message = '
 ';
                         $html = file_get_contents('http://livescore.siamsport.co.th/widget/live_table');
@@ -110,20 +125,20 @@ include_once('dom.php');
 
                         /*** loop over the table rows ***/
                         foreach ($tables as $key => $row) {
-                            if($key >= 1) {
+                            if ($key >= 1) {
                                 $cols = $row->getElementsByTagName('tr');
                                 foreach ($cols as $key2 => $cols) {
                                     $td = $cols->getElementsByTagName('td');
                                     if ($key2 == 0) {
 
-                                    }elseif($key2 == 1){
-                                        $message .=  '----- '.$cols->nodeValue . ' -----
+                                    } elseif ($key2 == 1) {
+                                        $message .= '----- ' . $cols->nodeValue . ' -----
 ';
-                                    }else{
-                                        $message .=  $td->item(0)->nodeValue. ' | ' ;
-                                        $message .=  $td->item(1)->nodeValue. ' | ' ;
-                                        $message .=  $td->item(2)->nodeValue. '
-' ;
+                                    } else {
+                                        $message .= $td->item(0)->nodeValue . ' | ';
+                                        $message .= $td->item(1)->nodeValue . ' | ';
+                                        $message .= $td->item(2)->nodeValue . '
+';
                                     }
                                 }
                             }
@@ -258,14 +273,64 @@ include_once('dom.php');
                                 $case = 2;
                                 break;
                         }
+                    }
 
+                    if (strpos($textinput, 'เพิ่มสาว') !== false) {
+                        $text_ex = explode(':', $textinput);
+                        //เอาข้อความมาแยก : ได้เป็น Array
+                        if ($text_ex[0] == "เพิ่มสาว") { //ถ้าข้อความคือ "อยากรู้" ให้ทำการดึงข้อมูลจาก Wikipedia หาจากไทยก่อน //https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=PHP
+                            $data = $text_ex[1];
+                            $sql = <<<EOF
+      CREATE TABLE INSTAGRAM
+      (ID INTEGER PRIMARY KEY    AUTOINCREMENT,
+      DESCRIPTION           TEXT    NOT NULL,
+      TASK            INT     NOT NULL);
+EOF;
+
+                            $ret = $db->exec($sql);
+                            if (!$ret) {
+                                echo $db->lastErrorMsg();
+
+                                $sql = <<<EOF
+      INSERT INTO INSTAGRAM (DESCRIPTION,TASK)
+      VALUES ('$data', 1 );
+EOF;
+
+                                $ret = $db->exec($sql);
+                                if (!$ret) {
+                                    echo $db->lastErrorMsg();
+                                } else {
+                                    echo "Records created successfully\n";
+                                }
+
+                            } else {
+                                echo "Table created successfully\n";
+
+
+                                $sql = <<<EOF
+      INSERT INTO INSTAGRAM (DESCRIPTION,TASK)
+      VALUES ('$data', 1 );
+EOF;
+
+                                $ret = $db->exec($sql);
+                                if (!$ret) {
+                                    echo $db->lastErrorMsg();
+                                } else {
+                                    echo "Records created successfully\n";
+                                }
+
+                            }
+                            $db->close();
+                        }
+                        $text = 'จัดเก็บให้แล้วครับลูกพี่';
+                        $case = 1;
                     }
 
                     if (strpos($textinput, 'ครก') !== false) {
                         $rand = rand(0, 1);
-                        if($rand == 0){
+                        if ($rand == 0) {
                             $text = 'ครกพ่อง?';
-                        }else{
+                        } else {
                             $text = 'อ้อร้ออิแหลงใต้นะมึง';
                         }
                         $case = 1;
@@ -274,9 +339,9 @@ include_once('dom.php');
                     if (strpos($textinput, 'fuck') !== false || strpos($textinput, 'fck') !== false) {
                         $case = 1;
                         $rand = rand(0, 3);
-                        if($rand == 0){
+                        if ($rand == 0) {
                             $text = 'fuck แม่งมึงดิ';
-                        }else{
+                        } else {
                             $text = 'เอาภาษาไทยให้รอดก่อนไอสัด';
                         }
                     }
@@ -284,26 +349,26 @@ include_once('dom.php');
                     if (strpos($textinput, 'มีเรื่อง') !== false || strpos($textinput, 'มาดิ') !== false || strpos($textinput, 'จะเอา') !== false || strpos($textinput, 'อยากมี') !== false) {
                         $case = 1;
                         $rand = rand(0, 3);
-                        if($rand == 0){
+                        if ($rand == 0) {
                             $text = 'โทรมาสัด 0848104588';
-                        }elseif($rand == 1){
+                        } elseif ($rand == 1) {
                             $text = 'โทรมาสัด 0830164506';
-                        }elseif($rand == 2){
+                        } elseif ($rand == 2) {
                             $text = 'โทรมาสัด 0806914151';
-                        }elseif($rand == 3){
+                        } elseif ($rand == 3) {
                             $text = 'โทรมาสัด 0628295441';
                         }
                     }
 
                     if (strpos($textinput, 'ป้อม') !== false || strpos($textinput, 'เตี') !== false) {
                         $rand = rand(0, 2);
-                        if($rand == 0){
+                        if ($rand == 0) {
                             $text = 'ป้อม';
                             $case = 1;
-                        }elseif($rand == 1){
+                        } elseif ($rand == 1) {
                             $text = 'แวะหาของอร่อยกินก่อนถึงบ้านกันนะ "ป้อม ก๋วยเตี๋ยวหมูน้ำตก เปิด 11.00น-22.00น. ตรงข้ามนาซ่ามอลล์';
                             $case = 1;
-                        }else{
+                        } else {
                             $img = 'https://scontent-kul1-1.xx.fbcdn.net/v/t31.0-8/1913398_1378470292422241_1410488251_o.jpg?oh=50494534260d63d1ae2f087fbb122458&oe=591B9D41';
                             $case = 2;
                         }
@@ -317,11 +382,11 @@ include_once('dom.php');
                     if (strpos($textinput, 'มึง') !== false) {
                         $rand = rand(0, 2);
                         $case = 1;
-                        if($rand == 0){
+                        if ($rand == 0) {
                             $text = 'ไรมึง';
-                        }elseif($rand == 1){
+                        } elseif ($rand == 1) {
                             $text = 'กวนตีนนะมึง';
-                        }else{
+                        } else {
                             $text = 'อยากมีเรื่อง ?';
                         }
 
@@ -461,11 +526,11 @@ include_once('dom.php');
 
                     if (strpos($textinput, 'หี') !== false) {
 
-                        $rand = rand(0,1);
-                        if($rand == 0){
+                        $rand = rand(0, 1);
+                        if ($rand == 0) {
                             $text = 'หีแม่มมึงดิ';
                             $case = 1;
-                        }else{
+                        } else {
                             $text = 'พูดดีๆกับกูบ้างก็ได้....อีแตด';
                             $case = 1;
                         }
@@ -477,10 +542,10 @@ include_once('dom.php');
                     }
 
                     if (strpos($textinput, 'งง') !== false || strpos($textinput, 'อ่าว') !== false) {
-                        $rand = rand(0,1);
-                        if($rand == 0){
+                        $rand = rand(0, 1);
+                        if ($rand == 0) {
                             $text = 'งงไรมึง';
-                        }else{
+                        } else {
                             $text = 'งงดิควาย';
                         }
 
@@ -493,7 +558,7 @@ include_once('dom.php');
                         if ($rand == 1) {
                             $text = 'ยุ่งไรกับปอวะควย';
                             $case = 1;
-                        }elseif($rand == 2){
+                        } elseif ($rand == 2) {
                             $img = 'https://scontent-kul1-1.xx.fbcdn.net/v/t1.0-9/206684_10150148245956816_629644_n.jpg?oh=54291f5e70c87396b37718586bb94802&oe=59088C65';
                             $case = 2;
                         } else {
@@ -504,12 +569,12 @@ include_once('dom.php');
                     }
 
                     if (strpos($textinput, 'ควย') !== false) {
-                        $rand = rand(0,2);
-                        if($rand == 0){
+                        $rand = rand(0, 2);
+                        if ($rand == 0) {
                             $text = 'ควยพ่องมึงดิ';
-                        }elseif($rand == 1){
+                        } elseif ($rand == 1) {
                             $text = 'ควยไรสัด';
-                        }elseif($rand == 2){
+                        } elseif ($rand == 2) {
                             $text = 'ควยไร อยากมีเรื่อง?';
                         }
                         $case = 1;
@@ -531,8 +596,8 @@ include_once('dom.php');
                     }
 
                     if (strpos($textinput, '555') !== false) {
-                        $rand = rand(0,1);
-                        if($rand == 0){
+                        $rand = rand(0, 1);
+                        if ($rand == 0) {
                             $array = [
                                 "id" => "325708",
                                 "type" => "sticker",
@@ -540,11 +605,10 @@ include_once('dom.php');
                                 "stickerId" => "100"
                             ];
                             $case = 4;
-                        }else{
+                        } else {
                             $text = 'ตลกเหรอสัด';
                             $case = 1;
                         }
-
 
 
                     }
@@ -720,18 +784,19 @@ include_once('dom.php');
 //fclose($myfile);
 
 
-function getElementsByClass(&$parentNode, $tagName, $className) {
-    $nodes=array();
+    function getElementsByClass(&$parentNode, $tagName, $className)
+    {
+        $nodes = array();
 
-    $childNodeList = $parentNode->getElementsByTagName($tagName);
-    for ($i = 0; $i < $childNodeList->length; $i++) {
-        $temp = $childNodeList->item($i);
-        if (stripos($temp->getAttribute('class'), $className) !== false) {
-            $nodes[]=$temp;
+        $childNodeList = $parentNode->getElementsByTagName($tagName);
+        for ($i = 0; $i < $childNodeList->length; $i++) {
+            $temp = $childNodeList->item($i);
+            if (stripos($temp->getAttribute('class'), $className) !== false) {
+                $nodes[] = $temp;
+            }
         }
+
+        return $nodes;
     }
-
-    return $nodes;
 }
-
 echo "OK";
