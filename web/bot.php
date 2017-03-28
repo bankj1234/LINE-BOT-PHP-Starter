@@ -139,7 +139,7 @@ include_once('dom.php');
                     }
 
                     if (strpos($textinput, 'สาว') !== false) {
-                        $rand = rand(1, 29);
+                        $rand = rand(1, 30);
                         switch ($rand) {
                             case 1:
                                 $text = 'https://www.instagram.com/nookzii/';
@@ -257,6 +257,11 @@ include_once('dom.php');
                                 $img = 'https://scontent-kul1-1.xx.fbcdn.net/v/t1.0-9/16143305_10210453831516528_4406585939313454026_n.jpg?oh=1d266be09bf56aadc21ea57df61a9048&oe=594ADC78';
                                 $case = 2;
                                 break;
+                            case 30:
+                                $text = 'https://www.instagram.com/nuchcheeber/';
+                                $case = 1;
+                                break;
+
                         }
 
                     }
