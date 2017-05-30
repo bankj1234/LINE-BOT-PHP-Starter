@@ -133,7 +133,7 @@ include_once('dom.php');
                         $case = 1;
                     }
 
-                    if(strpos($textinput, 'หุ้น') !== false){
+                    if(strpos($textinput, 'นน') !== false){
                         $message = '
 ';
                         $html = file_get_contents('https://m.investing.com/economic-calendar/');
