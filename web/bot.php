@@ -146,7 +146,6 @@ include_once('dom.php');
 ' ;
                         }
                         $message = strip_tags($message);
-                        $message = 'หุ้น';
                         $text = $message;
                         $case = 1;
                     }
