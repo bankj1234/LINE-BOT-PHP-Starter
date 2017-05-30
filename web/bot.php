@@ -141,11 +141,11 @@ include_once('dom.php');
                         $dom->loadHTML($html);
                         $dom->preserveWhiteSpace = false;
                         $data = $dom->getElementsByTagName('article');
-//                        foreach ($data as $row) {
-//                            $message .=  $row->nodeValue. '
-//' ;
-//                        }
-//                        $message = strip_tags($message);
+                        foreach ($data as $row) {
+                            $message .=  $row->nodeValue. '
+' ;
+                        }
+                        $message = strip_tags($message);
                         $message = 'หุ้น';
                         $text = $message;
                         $case = 1;
