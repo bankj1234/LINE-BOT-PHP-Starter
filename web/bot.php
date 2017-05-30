@@ -146,9 +146,8 @@ include_once('dom.php');
 ' ;
                         }
                         $message = strip_tags($message);
-
                         $charset = 'UTF-8';
-                        $length = 100;
+                        $length = 10;
                         if(mb_strlen($message, $charset) > $length) {
                             $string = mb_substr($message, 0, $length - 3, $charset) . '...';
                         }
