@@ -136,9 +136,10 @@ include_once('dom.php');
                     if(strpos($textinput, 'หุ้น') !== false){
                         $message = '
 ';
-                        $dom = new DOMDocument();
-                        $dom->loadHTMLFile('https://m.investing.com/economic-calendar/');
-//$data = $dom->getElementById("ec_wrapper");
+                        $html = file_get_contents('https://m.investing.com/economic-calendar/');
+                        $dom = new domDocument();
+                        $dom->loadHTML($html);
+                        $dom->preserveWhiteSpace = false;
                         $data = $dom->getElementsByTagName('article');
 
                         foreach ($data as $row) {
