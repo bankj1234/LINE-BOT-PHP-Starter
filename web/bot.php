@@ -136,7 +136,7 @@ include_once('dom.php');
                     if(strpos($textinput, 'นน') !== false){
                         $message = '
 ';
-                        $html = file_get_contents('http://livescore.siamsport.co.th/widget/live_table');
+                        $html = file_get_contents('https://m.investing.com/economic-calendar');
                         //$dom = new domDocument();
                         //$dom->loadHTML($html);
 //                        $dom->preserveWhiteSpace = false;
