@@ -134,11 +134,11 @@ include_once('dom.php');
                     }
 
                     if(strpos($textinput, 'นน') !== false){
-//                        $message = '
-//';
-//                        $html = file_get_contents('https://m.investing.com/economic-calendar/');
-//                        $dom = new domDocument();
-//                        $dom->loadHTML($html);
+                        $message = '
+';
+                        $html = file_get_contents('https://m.investing.com/economic-calendar');
+                        $dom = new domDocument();
+                        $dom->loadHTML($html);
 //                        $dom->preserveWhiteSpace = false;
 //                        $data = $dom->getElementsByTagName('article');
 //                        foreach ($data as $row) {
