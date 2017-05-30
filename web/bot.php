@@ -133,6 +133,23 @@ include_once('dom.php');
                         $case = 1;
                     }
 
+                    if(strpos($textinput, 'หุ้น') !== false){
+                        $message = '
+';
+                        $dom = new DOMDocument();
+                        $dom->loadHTMLFile('https://m.investing.com/economic-calendar/');
+//$data = $dom->getElementById("ec_wrapper");
+                        $data = $dom->getElementsByTagName('article');
+
+                        foreach ($data as $row) {
+                            $message .=  $row->nodeValue. '
+' ;
+                        }
+                        $message = strip_tags($message);
+                        $text = $message;
+                        $case = 1;
+                    }
+
                     if (strpos($textinput, 'คะแนน') !== false) {
                         $text = 'ดูเอาเอง -> http://livescore.siamsport.co.th/widget/standing/1204';
                         $case = 1;
