@@ -29,7 +29,6 @@ if (!is_null($events['events'])) {
                 fclose($myfile);
                 $case = 1;
                 $rand = rand(0, 2);
-                $case = 1;
                 if ($rand == 1) {
                     $text = 'เสือกไรกู';
                 } elseif ($rand == 2) {
@@ -344,7 +343,7 @@ if (!is_null($events['events'])) {
                 }
 
                 if (strpos($textinput, 'ตึ๋ง') !== false) {
-                    $rand = rand(1, 5);
+                    $rand = rand(1, 3);
                     if ($rand == 2) {
                         $img = 'https://scontent.fbkk1-3.fna.fbcdn.net/v/t1.0-9/19397078_10211826625195512_453387659638537096_n.jpg?oh=f9330082176e94217b210c0e61fdbae6&oe=59D2CB26';
                         $case = 2;
@@ -352,7 +351,7 @@ if (!is_null($events['events'])) {
                 }
 
                 if (strpos($textinput, 'เป็ก') !== false) {
-                    $rand = rand(1, 5);
+                    $rand = rand(1, 3);
                     if ($rand == 2) {
                         $img = 'https://scontent.fbkk1-3.fna.fbcdn.net/v/t1.0-9/19429678_10211826625115510_6266436447082193193_n.jpg?oh=1551815a038fc3da1bc1d072d2723a86&oe=59C8CEA1';
                         $case = 2;
@@ -360,7 +359,7 @@ if (!is_null($events['events'])) {
                 }
 
                 if (strpos($textinput, 'บิ๊ก') !== false) {
-                    $rand = rand(1, 5);
+                    $rand = rand(1, 3);
                     if ($rand == 1) {
                         $text = 'ยุ่งไรกับบิ๊กวะควย';
                         $case = 1;
