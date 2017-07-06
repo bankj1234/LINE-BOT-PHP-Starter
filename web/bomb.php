@@ -38,7 +38,7 @@ if (!is_null($events['events'])) {
                 }
             }
 
-            if (strpos($textinput, 'ไปไกลๆตีน') !== false) {
+            if (strpos($textinput, 'บอมไป') !== false) {
                 $rand = rand(1, 5);
                 if ($rand == 1) {
                     $myfile = fopen("data.txt", "w") or die("Unable to open file!");
