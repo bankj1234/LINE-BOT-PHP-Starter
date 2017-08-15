@@ -133,28 +133,6 @@ include_once('dom.php');
                         $case = 1;
                     }
 
-                    if(strpos($textinput, 'นน') !== false){
-                        $message = '
-';
-                        $html = file_get_contents('https://m.investing.com/economic-calendar');
-                        $dom = new domDocument();
-                        $dom->loadHTML($html);
-                        $dom->preserveWhiteSpace = false;
-                        $data = $dom->getElementsByTagName('article');
-                        foreach ($data as $row) {
-                            $message .=  $row->nodeValue. '
-' ;
-                        }
-                        $message = strip_tags($message);
-                        $charset = 'UTF-8';
-                        $length = 10;
-                        if(mb_strlen($message, $charset) > $length) {
-                            $string = mb_substr($message, 0, $length - 3, $charset) . '...';
-                        }
-
-                        $text = $string;
-                        $case = 1;
-                    }
 
                     if (strpos($textinput, 'คะแนน') !== false) {
                         $text = 'ดูเอาเอง -> http://livescore.siamsport.co.th/widget/standing/1204';
@@ -522,13 +500,38 @@ include_once('dom.php');
                             $text = 'ยุ่งไรกับปอวะควย';
                             $case = 1;
                         }elseif($rand == 2){
-                            $img = 'https://scontent-kul1-1.xx.fbcdn.net/v/t1.0-9/206684_10150148245956816_629644_n.jpg?oh=54291f5e70c87396b37718586bb94802&oe=59088C65';
+                            $img = 'https://www.tc-response.com/laravel/public/img/por1.png';
+                            $case = 2;
+                        }elseif($rand == 3){
+                            $img = 'https://www.tc-response.com/laravel/public/img/por2.jpg';
                             $case = 2;
                         } else {
                             $text = 'ปอตายแล้ว';
                             $case = 1;
                         }
 
+                    }
+
+                    if (strpos($textinput, 'ปลา') !== false) {
+                        $rand = rand(1, 5);
+                        if ($rand == 1) {
+                            $text = 'ไรมึง...เดียวจับเย็ดเบ้าตาแม่ม';
+                            $case = 1;
+                        }elseif($rand == 2){
+                            $img = 'https://www.tc-response.com/laravel/public/img/pla1.jpg';
+                            $case = 2;
+                        }
+                    }
+
+                    if (strpos($textinput, 'ขอโทษ') !== false || strpos($textinput, 'ขอโทด') || strpos($textinput, 'โทด') || strpos($textinput, 'โทษ')) {
+                        $rand = rand(1, 2);
+                        if ($rand == 1) {
+                            $text = 'ครั้งหน้าอย่าทำอีกนะสัด';
+                            $case = 1;
+                        }elseif($rand == 2){
+                            $img = 'https://www.tc-response.com/laravel/public/img/sorry.jpg';
+                            $case = 2;
+                        }
                     }
 
                     if (strpos($textinput, 'ควย') !== false) {

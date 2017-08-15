@@ -53,6 +53,17 @@ if (!is_null($events['events'])) {
                 }
             }
 
+            if (strpos($textinput, 'ขอโทษ') !== false || strpos($textinput, 'ขอโทด') || strpos($textinput, 'โทด') || strpos($textinput, 'โทษ') || strpos($textinput, 'ท่ด') || strpos($textinput, 'ทด')) {
+                $rand = rand(1, 2);
+                if ($rand == 1) {
+                    $text = 'ครั้งหน้าอย่าทำอีกนะสัด';
+                    $case = 1;
+                }elseif($rand == 2){
+                    $img = 'https://www.tc-response.com/laravel/public/img/sorry.jpg';
+                    $case = 2;
+                }
+            }
+
             $myfile = fopen("data.txt", "r") or die("Unable to open file!");
             $data = fread($myfile, filesize("data.txt"));
             if ($data == "1") {
