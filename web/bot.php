@@ -523,6 +523,19 @@ include_once('dom.php');
                         }
                     }
 
+                    if(strpos($textinput, 'เป้') !== false){
+                        $rand = rand(1, 2);
+                        if ($rand == 1) {
+                            $text = 'https://www.tc-response.com/laravel/public/img/p1.jpg';
+                            $case = 2;
+                        }elseif($rand == 2){
+                            $img = 'https://www.tc-response.com/laravel/public/img/p2.jpg';
+                            $case = 2;
+                        }
+
+
+                    }
+
                     if (strpos($textinput, 'ขอโทษ') !== false || strpos($textinput, 'ขอโทด') || strpos($textinput, 'โทด') || strpos($textinput, 'โทษ')) {
                         $rand = rand(1, 2);
                         if ($rand == 1) {
