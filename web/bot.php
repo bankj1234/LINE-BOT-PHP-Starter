@@ -48,13 +48,16 @@ if (strpos($_msg, 'สอนบอท') !== false) {
     }
 }else{
     if($isData >0){
+        $rand = rand(0,$isData);
         if(strpos($_msg, 'สาว') !== false){
+            $arrGirlData = array();
             foreach($data as $rec){
-                $arrPostData = array();
-                $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-                $arrPostData['messages'][0]['type'] = "text";
-                $arrPostData['messages'][0]['text'] = $isData;
+                $arrGirlData[] = $rec->answer;
             }
+            $arrPostData = array();
+            $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+            $arrPostData['messages'][0]['type'] = "text";
+            $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
         }else{
             foreach($data as $rec){
                 $arrPostData = array();
