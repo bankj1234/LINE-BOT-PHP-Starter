@@ -12,10 +12,10 @@ $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 
+$api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
+$url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
 
 if (strpos($_msg, 'สาวกี่คน') !== false) {
-    $api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
-    $url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
     $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
     $data = json_decode($json);
     $isData=sizeof($data);
@@ -24,69 +24,68 @@ if (strpos($_msg, 'สาวกี่คน') !== false) {
     $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = "ตอนนี้มีสาวในสต๊อกอยู่ประมาณ ".$isData." คน";
 }else{
-    $api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
-    $url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
-    $data = json_decode($json);
-    $isData=sizeof($data);
-
-    if (strpos($_msg, 'สอนบอท') !== false) {
-        if (strpos($_msg, 'สอนบอท') !== false) {
-            $x_tra = str_replace("สอนบอท","", $_msg);
-            $pieces = explode("|", $x_tra);
-            $_question=str_replace("[","",$pieces[0]);
-            $_answer=str_replace("]","",$pieces[1]);
-            //Post New Data
-            $newData = json_encode(
-                array(
-                    'question' => $_question,
-                    'answer'=> $_answer
-                )
-            );
-            $opts = array(
-                'http' => array(
-                    'method' => "POST",
-                    'header' => "Content-type: application/json",
-                    'content' => $newData
-                )
-            );
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-            $arrPostData = array();
-            $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-            $arrPostData['messages'][0]['type'] = "text";
-            $arrPostData['messages'][0]['text'] = 'กูจำได้แล้ว เดียวมึงเจอกู';
+    if (strpos($_msg, 'สาว') !== false) {
+        $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
+        $data = json_decode($json);
+        $isData=sizeof($data);
+        $max = $isData-1;
+        $rand = rand(0,$max);
+        $arrGirlData = array();
+        foreach($data as $rec){
+            $arrGirlData[] = $rec->answer;
         }
+        $arrPostData = array();
+        $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+        $arrPostData['messages'][0]['type'] = "text";
+        $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
     }else{
-        if($isData >0){
-            $max = $isData-1;
-            $rand = rand(0,$max);
-            if(strpos($_msg, 'สาว') !== false){
-                $arrGirlData = array();
-                foreach($data as $rec){
-                    $arrGirlData[] = $rec->answer;
-                }
+        $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
+        $data = json_decode($json);
+        $isData=sizeof($data);
+        if (strpos($_msg, 'สอนบอท') !== false) {
+            if (strpos($_msg, 'สอนบอท') !== false) {
+                $x_tra = str_replace("สอนบอท","", $_msg);
+                $pieces = explode("|", $x_tra);
+                $_question=str_replace("[","",$pieces[0]);
+                $_answer=str_replace("]","",$pieces[1]);
+                //Post New Data
+                $newData = json_encode(
+                    array(
+                        'question' => $_question,
+                        'answer'=> $_answer
+                    )
+                );
+                $opts = array(
+                    'http' => array(
+                        'method' => "POST",
+                        'header' => "Content-type: application/json",
+                        'content' => $newData
+                    )
+                );
+                $context = stream_context_create($opts);
+                $returnValue = file_get_contents($url,false,$context);
                 $arrPostData = array();
                 $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
                 $arrPostData['messages'][0]['type'] = "text";
-                $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
-            }else{
+                $arrPostData['messages'][0]['text'] = 'กูจำได้แล้ว เดียวมึงเจอกู';
+            }
+        }else{
+            if($isData >0){
                 foreach($data as $rec){
                     $arrPostData = array();
                     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
                     $arrPostData['messages'][0]['type'] = "text";
                     $arrPostData['messages'][0]['text'] = $rec->answer;
                 }
-            }
+            }else{
+                if (strpos($_msg, 'บอท') !== false) {
+                    $arrPostData = array();
+                    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                    $arrPostData['messages'][0]['type'] = "text";
+                    $arrPostData['messages'][0]['text'] = 'พิมพ์ควยไรกันกูไม่เข้าใจ อยากให้กูจำได้พิมพ์ว่า : สอนบอท[คำถาม|คำตอบ]';
+                }
 
-        }else{
-            if (strpos($_msg, 'บอท') !== false) {
-                $arrPostData = array();
-                $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-                $arrPostData['messages'][0]['type'] = "text";
-                $arrPostData['messages'][0]['text'] = 'พิมพ์ควยไรกันกูไม่เข้าใจ อยากให้กูจำได้พิมพ์ว่า : สอนบอท[คำถาม|คำตอบ]';
             }
-
         }
     }
 }
