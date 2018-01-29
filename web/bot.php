@@ -48,7 +48,8 @@ if (strpos($_msg, 'สอนบอท') !== false) {
     }
 }else{
     if($isData >0){
-        $rand = rand(0,$isData);
+        $max = $isData-1;
+        $rand = rand(0,$max);
         if(strpos($_msg, 'สาว') !== false){
             $arrGirlData = array();
             foreach($data as $rec){
