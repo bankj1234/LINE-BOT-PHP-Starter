@@ -22,7 +22,7 @@ if (strpos($_msg, 'สาวกี่คน') !== false) {
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "text";
-    $arrPostData['messages'][0]['text'] = "ตอนนี้มีสาวในสต๊อกอยู่ประมาณ "+$isData+" คน";
+    $arrPostData['messages'][0]['text'] = "ตอนนี้มีสาวในสต๊อกอยู่ประมาณ ".$isData." คน";
 }else{
     $api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
     $url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
