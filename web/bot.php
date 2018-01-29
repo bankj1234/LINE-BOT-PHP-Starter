@@ -48,14 +48,23 @@ if (strpos($_msg, 'สอนบอท') !== false) {
     }
 }else{
     if($isData >0){
-        foreach($data as $rec){
-            $arrPostData = array();
-            $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-            $arrPostData['messages'][0]['type'] = "text";
-            $arrPostData['messages'][0]['text'] = $rec->answer;
+        if(strpos($_msg, 'สาว') !== false){
+            foreach($data as $rec){
+                $arrPostData = array();
+                $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                $arrPostData['messages'][0]['type'] = "text";
+                $arrPostData['messages'][0]['text'] = $rec->answer;
+            }
+        }else{
+            foreach($data as $rec){
+                $arrPostData = array();
+                $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                $arrPostData['messages'][0]['type'] = "text";
+                $arrPostData['messages'][0]['text'] = $rec->answer;
+            }
         }
-    }else{
 
+    }else{
         if (strpos($_msg, 'บอท') !== false) {
             $arrPostData = array();
             $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
