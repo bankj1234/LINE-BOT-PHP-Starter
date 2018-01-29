@@ -24,21 +24,6 @@ if (strpos($_msg, 'สาวกี่คน') !== false) {
     $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = "ตอนนี้มีสาวในสต๊อกอยู่ประมาณ ".$isData." คน";
 }else{
-    if (strpos($_msg, 'สาว') !== false) {
-        $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
-        $data = json_decode($json);
-        $isData=sizeof($data);
-        $max = $isData-1;
-        $rand = rand(0,$max);
-        $arrGirlData = array();
-        foreach($data as $rec){
-            $arrGirlData[] = $rec->answer;
-        }
-        $arrPostData = array();
-        $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-        $arrPostData['messages'][0]['type'] = "text";
-        $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
-    }else{
         $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
         $data = json_decode($json);
         $isData=sizeof($data);
@@ -70,24 +55,39 @@ if (strpos($_msg, 'สาวกี่คน') !== false) {
                 $arrPostData['messages'][0]['text'] = 'กูจำได้แล้ว เดียวมึงเจอกู';
             }
         }else{
-            if($isData >0){
+            if (strpos($_msg, 'สาว') !== false) {
+                $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
+                $data = json_decode($json);
+                $isData=sizeof($data);
+                $max = $isData-1;
+                $rand = rand(0,$max);
+                $arrGirlData = array();
                 foreach($data as $rec){
-                    $arrPostData = array();
-                    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-                    $arrPostData['messages'][0]['type'] = "text";
-                    $arrPostData['messages'][0]['text'] = $rec->answer;
+                    $arrGirlData[] = $rec->answer;
                 }
-            }else{
-                if (strpos($_msg, 'บอท') !== false) {
-                    $arrPostData = array();
-                    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-                    $arrPostData['messages'][0]['type'] = "text";
-                    $arrPostData['messages'][0]['text'] = 'พิมพ์ควยไรกันกูไม่เข้าใจ อยากให้กูจำได้พิมพ์ว่า : สอนบอท[คำถาม|คำตอบ]';
-                }
+                $arrPostData = array();
+                $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                $arrPostData['messages'][0]['type'] = "text";
+                $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
+            }else {
+                if ($isData > 0) {
+                    foreach ($data as $rec) {
+                        $arrPostData = array();
+                        $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                        $arrPostData['messages'][0]['type'] = "text";
+                        $arrPostData['messages'][0]['text'] = $rec->answer;
+                    }
+                } else {
+                    if (strpos($_msg, 'บอท') !== false) {
+                        $arrPostData = array();
+                        $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                        $arrPostData['messages'][0]['type'] = "text";
+                        $arrPostData['messages'][0]['text'] = 'พิมพ์ควยไรกันกูไม่เข้าใจ อยากให้กูจำได้พิมพ์ว่า : สอนบอท[คำถาม|คำตอบ]';
+                    }
 
+                }
             }
         }
-    }
 }
 
 $channel = curl_init();
