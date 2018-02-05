@@ -21,6 +21,15 @@ if(strpos($_msg, 'ปอ') !== false){
     $arrPostData['messages'][0]['type'] = "image";
     $arrPostData['messages'][0]['originalContentUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
     $arrPostData['messages'][0]['previewImageUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
+    $channel = curl_init();
+    curl_setopt($channel, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel, CURLOPT_POSTFIELDS, json_encode($arrPostData));
+    curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
+    curl_setopt($channel, CURLOPT_FOLLOWLOCATION, 1);
+    $result = curl_exec($channel);
+    curl_close ($channel);
+    exit;
 } elseif (strpos($_msg, 'สาวกี่คน') !== false) {
     $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
     $data = json_decode($json);
