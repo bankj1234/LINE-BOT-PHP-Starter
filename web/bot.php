@@ -15,7 +15,7 @@ $_msg = $arrJson['events'][0]['message']['text'];
 $api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
 $url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
 
-if(strpos($_msg, 'ปอ') !== false){
+if(strpos($_msg, 'ปอ') !== false || strpos($_msg, 'บัง') !== false){
 
     $messages = [
         'type' => 'image',
