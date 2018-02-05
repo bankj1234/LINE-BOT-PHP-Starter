@@ -19,8 +19,8 @@ if(strpos($_msg, 'ปอ') !== false){
     $arrPostData = array();
     $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
     $arrPostData['messages'][0]['type'] = "image";
-    $arrPostData['messages'][0]['originalContentUrl'] = $img;
-    $arrPostData['messages'][0]['previewImageUrl'] = $img;
+    $arrPostData['messages'][0]['originalContentUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
+    $arrPostData['messages'][0]['previewImageUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
 } elseif (strpos($_msg, 'สาวกี่คน') !== false) {
     $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
     $data = json_decode($json);
@@ -58,7 +58,7 @@ if(strpos($_msg, 'ปอ') !== false){
                 $arrPostData = array();
                 $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
                 $arrPostData['messages'][0]['type'] = "text";
-                $arrPostData['messages'][0]['text'] = 'กูจำได้แล้ว เดียวมึงเจอกู';
+                $arrPostData['messages'][0]['text'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpgกูจำได้แล้ว เดียวมึงเจอกู';
             }
         }else{
             if (strpos($_msg, 'สาว') !== false) {
