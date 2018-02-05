@@ -16,19 +16,31 @@ $api_key="jMqjrU6jtBWsx94G_LD6A00F4Ll4npX_";
 $url = 'https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'';
 
 if(strpos($_msg, 'ปอ') !== false){
-    $arrPostData = array();
-    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-    $arrPostData['messages'][0]['type'] = "image";
-    $arrPostData['messages'][0]['originalContentUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
-    $arrPostData['messages'][0]['previewImageUrl'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpg';
-    $channel = curl_init();
-    curl_setopt($channel, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel, CURLOPT_POSTFIELDS, json_encode($arrPostData));
-    curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
-    curl_setopt($channel, CURLOPT_FOLLOWLOCATION, 1);
-    $result = curl_exec($channel);
-    curl_close ($channel);
+
+    $messages = [
+        'type' => 'image',
+        'originalContentUrl' => 'https://storage.googleapis.com/katsumoto/bot/por.jpg',
+        'previewImageUrl' => 'https://storage.googleapis.com/katsumoto/bot/por.jpg'
+    ];
+
+    // Make a POST Request to Messaging API to reply to sender
+    $url = 'https://api.line.me/v2/bot/message/reply';
+    $data = [
+        'replyToken' => $arrJson['events'][0]['replyToken'],
+        'messages' => [$messages],
+    ];
+    $post = json_encode($data);
+    $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $strAccessToken);
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    echo $result . "\r\n";
     exit;
 } elseif (strpos($_msg, 'สาวกี่คน') !== false) {
     $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"สาว"}');
