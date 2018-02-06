@@ -1,8 +1,8 @@
 <?php
 
-require_once "/src/WordBreaker.php";
+require_once "./src/WordBreaker.php";
 use PhlongTaIam\WordBreaker as WordBreaker;
-$wordBreaker = new WordBreaker("/data/tdict-std.txt");
+$wordBreaker = new WordBreaker("./data/tdict-std.txt");
 $strAccessToken = "S7u+m3LPEnv5g88DA1U/cgwTzJjBmVARDOKuCMsoBgIpi9kiltPJhQS3wi1x98au1DZpgwrYzYbtzKD0ze1C9LETZaGU7Jp2RD8vHsGOgDl3lwaTQcmBXs31PFffCp/Bl2UszxyvwRRaWvSlEQ/HOAdB04t89/1O/w1cDnyilFU=";
 
 $content = file_get_contents('php://input');
