@@ -1,5 +1,8 @@
 <?php
 
+require_once "./src/WordBreaker.php";
+use PhlongTaIam\WordBreaker as WordBreaker;
+$wordBreaker = new WordBreaker("../data/tdict-std.txt");
 $strAccessToken = "S7u+m3LPEnv5g88DA1U/cgwTzJjBmVARDOKuCMsoBgIpi9kiltPJhQS3wi1x98au1DZpgwrYzYbtzKD0ze1C9LETZaGU7Jp2RD8vHsGOgDl3lwaTQcmBXs31PFffCp/Bl2UszxyvwRRaWvSlEQ/HOAdB04t89/1O/w1cDnyilFU=";
 
 $content = file_get_contents('php://input');
@@ -51,9 +54,6 @@ if(strpos($_msg, 'ปอ') !== false || strpos($_msg, 'บัง') !== false){
     $arrPostData['messages'][0]['type'] = "text";
     $arrPostData['messages'][0]['text'] = "ตอนนี้มีสาวในสต๊อกอยู่ประมาณ ".$isData." คน";
 }else{
-        $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
-        $data = json_decode($json);
-        $isData=sizeof($data);
         if (strpos($_msg, 'สอนบอท') !== false) {
             if (strpos($_msg, 'สอนบอท') !== false) {
                 $x_tra = str_replace("สอนบอท","", $_msg);
@@ -97,13 +97,22 @@ if(strpos($_msg, 'ปอ') !== false || strpos($_msg, 'บัง') !== false){
                 $arrPostData['messages'][0]['type'] = "text";
                 $arrPostData['messages'][0]['text'] = $arrGirlData[$rand];
             }else {
-                if ($isData > 0) {
-                    foreach ($data as $rec) {
-                        $arrPostData = array();
-                        $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-                        $arrPostData['messages'][0]['type'] = "text";
-                        $arrPostData['messages'][0]['text'] = $rec->answer;
+                foreach($wordBreaker->breakIntoWords($_msg) as $w) {
+                    $json = file_get_contents('https://api.mlab.com/api/1/databases/bot/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
+                    $data = json_decode($json);
+                    $isData=sizeof($data);
+                    if($isData > 0){
+                        foreach ($data as $rec) {
+                            $arrPostData = array();
+                            $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+                            $arrPostData['messages'][0]['type'] = "text";
+                            $arrPostData['messages'][0]['text'] = $rec->answer;
+                        }
                     }
+                }
+
+                if ($isData > 0) {
+
                 } else {
                     if (strpos($_msg, 'บอท') !== false) {
                         $arrPostData = array();
