@@ -79,7 +79,7 @@ if(strpos($_msg, 'ปอ') !== false || strpos($_msg, 'บัง') !== false){
                 $arrPostData = array();
                 $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
                 $arrPostData['messages'][0]['type'] = "text";
-                $arrPostData['messages'][0]['text'] = 'https://storage.googleapis.com/katsumoto/bot/por.jpgกูจำได้แล้ว เดียวมึงเจอกู';
+                $arrPostData['messages'][0]['text'] = 'กูจำได้แล้ว เดียวมึงเจอกู';
             }
         }else{
             if (strpos($_msg, 'สาว') !== false) {
