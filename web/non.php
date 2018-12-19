@@ -9,7 +9,7 @@ foreach ($data as $row) {
     echo $row->nodeValue;
     echo '<br/>';
 }
-
+echo 'test';
 
 
     $message = '
